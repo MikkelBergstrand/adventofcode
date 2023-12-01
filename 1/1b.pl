@@ -14,20 +14,19 @@ my %literals = (
 );
 
 sub conv_to_num {
-    my $input = $_[0];
-    return $literals{$input} if exists $literals{$input};
-    return int($input);
+    my $input = shift;
+    return $literals{$input} // $input; 
 }
 
 open(FH, '<', '1.txt');
 my $sum = 0;
 my $keyRegex = join("|", keys %literals);
-print $keyRegex;
+
 while(<FH>){
     my @nums = $_ =~ /(?=(\d|$keyRegex))/g;
     my $first = conv_to_num($nums[0]);
     my $last = conv_to_num($nums[-1]);
-    $sum += $first*10 + $last;
+    $sum += $first . $last;
 }
 close(FH);
 print "The sum is $sum \n";

@@ -15,9 +15,7 @@ my %literals = (
 
 sub conv_to_num {
     my $input = $_[0];
-    if (exists $literals{$input}) {
-        return $literals{$input};
-    }
+    return $literals{$input} if exists $literals{$input};
     return int($input);
 }
 

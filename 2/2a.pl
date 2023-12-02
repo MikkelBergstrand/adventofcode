@@ -6,19 +6,11 @@ my %limits = (
     'blue' => 14,
     'green' => 13 );
 
-my $id = 0;
-my $sum = 0;
 OUTER: while(<>) {
-    $id++;
-    my $line = ($_ =~ /:(.*)/);
-    foreach my $pick (split(';', $1)) {
-       while($pick =~ /(\d+) (\w+)/g) {
-            next OUTER if($limits{$2} < $1);
-        }
+    while(/(\d+) (\w+)/g) {
+        next OUTER if($limits{$2} < $1);
     }
-
-    #End up here, it is valid
-    $sum += $id;
+    $sum += $.;
 }
 
 print "$sum\n";

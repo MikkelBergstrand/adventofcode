@@ -42,7 +42,7 @@ sub find_adjacent_symbol {
         return $val if $val;
     }
     return $li-1 + $y*$w if $li > 0 and substr($lines[$y], $li-1, 1) eq '*';
-    return $ri +   $y*$w if $ri <= $w-1 and substr($lines[$y], $ri, 1) eq '*';
+    return $ri   + $y*$w if $ri <= $w-1 and substr($lines[$y], $ri, 1) eq '*';
 
     return;
 }
@@ -55,7 +55,7 @@ sub check_adjacent_line {
     $length += 1 if $li > 0;
     $length += 1 if $ri < $w-1;
 
-    $li = $li > 0 ? $li -1 : 0;
+    $li = $li > 0 ? $li - 1 : 0;
     if(substr($line, $li, $length) =~ /(\*)/) {
         return $li + $-[1] + $y*$w;
     }

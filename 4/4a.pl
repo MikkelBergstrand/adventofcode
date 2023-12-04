@@ -4,8 +4,7 @@ use v5.30;
 
 my $sum = 0;
 while(<>) {
-    chomp $_;
-    $_ =~ /:([^\|]+)\|(.*)/;
+    $_ =~ /:(.+)\|(.*)/;
 
     my @winningNos = split ' ', $1;
     my @guessNos = split ' ', $2;

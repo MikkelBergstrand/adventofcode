@@ -5,8 +5,7 @@ use v5.30;
 my @cardCount = (0);
 
 while(<>) {
-    chomp $_;
-    $_ =~ /Card\s+(\d+):([^\|]+)\|(.*)/;
+    $_ =~ /Card\s+(\d+):(.+)\|(.*)/;
 
     my $cardID = $1;
     $cardCount[$cardID] += 1;

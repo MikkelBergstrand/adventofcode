@@ -41,20 +41,20 @@ sub min {
 
 #Construct data structure.
 my @maps = ();
-my @lastMap = ();
+my @ranges = ();
 while(<>) {
     my $line = $_;
     if($line =~ /\d/) {
         my ($dest, $src, $len) = split ' ', $line; 
-        push @lastMap, [$dest, $src, $len];
+        push @ranges, [$dest, $src, $len];
 
     }
     elsif($line =~ /\w/){
-        push @maps, dclone(\@lastMap);
-        @lastMap = ();
+        push @maps, dclone(\@ranges);
+        @ranges = ();
     }
 }
-push @maps, dclone(\@lastMap);
+push @maps, dclone(\@ranges);
 
 #Sort each map by the source start index
 foreach(@maps){
@@ -72,8 +72,8 @@ while($current <= $last){
     $jump = undef; 
 
     step: foreach (@maps) {
-       my @map = @{$_};     
-       foreach (@map) {
+       my @ranges = @{$_};     
+       foreach (@ranges) {
             my($dest, $src, $len) = @{$_};
             if($val < $src){ #We are outside any range.
                 $jump = min($jump, $src - $val); 
@@ -86,11 +86,7 @@ while($current <= $last){
             }
        }
     }
-
-    if ((!$min || $val <= $min)) {
-        $min = $val; 
-    }
+    $min = $val if ((!$min || $val <= $min));
     $current = snap_to_seed($current + ($jump // 1));
 }
-
 say $min;

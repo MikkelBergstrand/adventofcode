@@ -12,16 +12,27 @@ my $output = 1;
 for(my $i = 0; $i < scalar @times; $i++){
     my $time = $times[$i];
     my $distance = $distances[$i];
-    my $winningWays = 0;
-    say "Look at $time, $distance"; 
-    for(my $charge = 0; $charge < $time; $charge++){
-        my $newDist = ($time - $charge)*$charge;
-        say "$charge $newDist";
-        $winningWays++ if $newDist > $distance;
-        
-    }
-    $output *= $winningWays;
-    say "$winningWays winning ways";
+
+
+    # new_distance = $charge * ($time - $charge) (is a second-order poly)
+    # $charge is the variable, $time is constant
+    # Its derivative is t - 2c. So the top point is c = t/2
+    my $charge = $time / 2; 
+
+    # Intersection of parabola and straight line = $distance
+    # Solve equation -c^2 - t*c - distance = 0
+    my $intersect = (($time + sqrt($time*$time - 4*$distance)) / 2);
+    
+    # Check if intersection is a whole number. 
+    # That means that we include two unwanted results 
+    # (those where new distance = distance), and must subtract them.
+    my $intersect_whole_no = ($intersect =~ /^\d+$/); 
+
+    $intersect = int($intersect);
+    #Since the parabola is symmetric about the axis $charge
+    #We must also add one if $charge is odd.
+    my $n = ($intersect - $charge)*2 + ($charge % 2 != 0 ? 1 : 0) + ($intersect_whole_no ? -2 : 0);
+    $output *=$n;
 }
 
 say $output;

@@ -34,10 +34,9 @@ for(my $i = 0; $i < scalar @times; $i++){
      # (those where new distance = distance), and must subtract them.
      my $intersect_whole_no = ($intersect =~ /^\d+$/);
 
-     $intersect = int($intersect);
      #Since the parabola is symmetric about the axis $charge
      #We must also add one if $charge is odd.
-     my $n = ($intersect - $charge)*2 + ($charge % 2 != 0 ? 1 : 0) + ($intersect_whole_no ? -2 : 0);
+     my $n = (int($intersect) - int($charge))*2 + ($time % 2 == 0) +  ($intersect_whole_no ? -2 : 0);
      $output *=$n;
 }
 say $output;

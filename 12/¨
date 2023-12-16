@@ -1,0 +1,38 @@
+use strict;
+use warnings; 
+use v5.34;
+
+while(<>){
+    /(.+) (.+)/;
+    my @data = split //, $1;
+    my @arrangements = split ",", $2;
+    
+    say do_arrangement(\@data, \@arrangements, 0);
+}    
+
+sub do_arrangement {
+    my ($d, $i, $count) = @_;
+    say $count;
+    my @data = @{$d};
+    my $n = scalar(@data);
+    my @arrangements = @$i;
+    my $ret = 0;  
+    my $idx = -1;
+    foreach my $s (@data){
+        $idx++;
+       $count++ if $s eq '#';
+       if($s eq '.' && $count > 0) {
+            my $val = shift @arrangements;
+            return 0 if not defined $val or $val != $count; #Invalid range
+            return 1 if !scalar(@arrangements) or $idx == $n-1; #No more arrangements: we are done.
+       }
+       if($s eq '?') {
+            $ret += do_arrangement(@data[$idx..$n], @arrangements, $count); #We place another #
+            #Else we place a .
+            my $saved = shift @arrangements if $count > 0;
+            $ret += do_arrangement(@data[$idx..$n], @arrangements, 0);
+            unshift @arrangements, $saved;
+       }
+    }
+    return $ret;
+}

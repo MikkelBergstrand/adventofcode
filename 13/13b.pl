@@ -5,6 +5,7 @@ use List::Util qw(sum);
 
 my @patterns = ();
 my $sum = 0;
+
 while(<>) {
     if(/^$/) {
         $sum += handle_pattern(@patterns);
@@ -17,8 +18,8 @@ while(<>) {
 }
 
 $sum += handle_pattern(@patterns);
-
 say $sum;
+
 sub handle_pattern {
     my @patternStrings = @_;
     my @patternColumns = ();
@@ -36,12 +37,13 @@ sub handle_pattern {
             push @{$patternColumns[$j]}, $patternSymbol; 
         }
     }
-    my @rowNos = (0..scalar(@patternRows)-2);
     my @colNos = (0..scalar(@patternColumns)-2);
-    my $ret = 0;
+    my @rowNos = (0..scalar(@patternRows)-2);
+
     foreach(@rowNos){
         return 100*($_+1) if (pattern_analysis($_, @patternRows));
     }
+
     foreach(@colNos){
         return ($_+1) if (pattern_analysis($_, @patternColumns));
     }

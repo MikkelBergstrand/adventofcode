@@ -37,14 +37,11 @@ sub handle_pattern {
             push @{$patternColumns[$j]}, $patternSymbol; 
         }
     }
-    my @colNos = (0..scalar(@patternColumns)-2);
-    my @rowNos = (0..scalar(@patternRows)-2);
 
-    foreach(@rowNos){
+    foreach(0..scalar(@patternRows)-2){
         return 100*($_+1) if (pattern_analysis($_, @patternRows));
     }
-
-    foreach(@colNos){
+    foreach(0..scalar(@patternColumns)-2){
         return ($_+1) if (pattern_analysis($_, @patternColumns));
     }
     say "No conclusion";
